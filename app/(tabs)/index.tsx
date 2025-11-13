@@ -202,28 +202,28 @@ export default function HomeScreen() {
     <SafeAreaView edges={['top']} className="flex-1 bg-gray-50">
       <ScrollView className="px-5" contentContainerStyle={{ paddingBottom: 10 }}>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
           className={`mt-6 py-3.5 rounded-xl items-center ${isPreviewDisabled ? 'bg-blue-300' : 'bg-primary'}`}
           onPress={handlePreview}
           activeOpacity={0.8}
           disabled={isPreviewDisabled}
         >
           <Text className="text-base font-semibold text-white">预览详情页</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <Text className="text-2xl font-semibold text-gray-900 mb-4">账单页面配置</Text>
 
-        <Image source={selectedAvatar.source} className="rounded-full mr-3" style={{ width: 48, height: 48 }} />
+        {/* <Image source={selectedAvatar.source} className="rounded-full mr-3" style={{ width: 48, height: 48 }} /> */}
 
         <Text className="text-base font-medium text-gray-700 mb-3">头像选择</Text>
-        <View className="relative mb-6">
+        <View className="relative mb-2">
           <TouchableOpacity
             className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center justify-between"
             onPress={() => setIsDropdownOpen(!isDropdownOpen)}
             activeOpacity={0.8}
           >
             <View className="flex-row items-center">
-              <Image source={selectedAvatar.source} className="rounded-full mr-3" style={{ width: 48, height: 48 }} />
+              <Image source={selectedAvatar.source} className="rounded-full" style={{ width: 48, height: 48, marginRight: 20 }} />
               <Text className="text-base color-gray-900 font-medium">{selectedAvatar.label}</Text>
             </View>
             <Text className={`text-gray-400 text-sm ${isDropdownOpen ? 'rotate-180' : ''}`}>▼</Text>

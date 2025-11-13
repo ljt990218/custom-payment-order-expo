@@ -1,7 +1,7 @@
 import { Image, type ImageSource } from 'expo-image'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useMemo } from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const defaults = {
@@ -46,6 +46,7 @@ function coerceParam(value: string | string[] | undefined, fallback: string) {
 
 export default function DetailsScreen() {
   const params = useLocalSearchParams()
+  const router = useRouter()
 
   const data = useMemo(() => {
     return {
@@ -95,22 +96,27 @@ export default function DetailsScreen() {
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-white">
       <ScrollView className="flex-1">
-        <Image source={require('@/assets/close.png')} style={{ width: 32, height: 32, marginLeft: 8 }} />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => router.back()}
+          style={{ position: 'absolute', top: 8, left: 8, zIndex: 10 }}
+        >
+          <Image source={require('@/assets/close.png')} style={{ width: 32, height: 32 }} />
+        </TouchableOpacity>
 
         <View className="bg-white pt-8 pb-6 px-5">
-          <View style={{ alignItems: 'center' }}>
-            <Image
-              source={avatarSource}
-              className="mx-auto self-center mb-3"
-              resizeMode="contain"
-              style={{
-                width: 48,
-                height: undefined,
-                aspectRatio: 1,
-              }}
-            />
-          </View>
-          <Text className="text-lg text-center text-gray-900 mb-5 mt-2">{data.storeName}</Text>
+          <Image
+            source={avatarSource}
+            resizeMode="contain"
+            style={{
+              width: 48,
+              aspectRatio: 1,
+              marginBottom: 12,
+              alignSelf: 'center',
+            }}
+            className="mb-3"
+          />
+          <Text className="text-lg text-center text-gray-900 mb-5">{data.storeName}</Text>
           <Text
             className="text-4xl font-bold text-center text-gray-900 mb-8"
             style={{ fontFamily: 'WeChatSans-Medium' }}
