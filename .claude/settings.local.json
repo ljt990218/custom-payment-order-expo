@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__exa__get_code_context_exa",
+      "Bash(npm install:*)",
+      "Bash(yarn add:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(npm start)",
+      "Bash(npx expo start:*)",
+      "Bash(node -e:*)",
+      "Bash(yarn remove:*)",
+      "Bash(pkill:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(npx tsc:*)",
+      "Bash(find:*)",
+      "Bash(npm run ios:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
