@@ -75,7 +75,7 @@ export default function DetailsScreen() {
     const encoded = encodeURIComponent(data.barcode)
 
     console.log('encoded', `https://bwipjs-api.metafloor.com/?bcid=code128&text=${encoded}&scale=2&includetext=false`)
-    
+
     return `https://bwipjs-api.metafloor.com/?bcid=code128&text=${encoded}&scale=2&includetext=false`
   }, [data.barcode])
 
@@ -95,10 +95,7 @@ export default function DetailsScreen() {
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-white">
       <ScrollView className="flex-1">
-        <Image
-          source={require('@/assets/close.png')}
-          style={{ width: 32, height: 32, marginLeft: 8 }}
-        />
+        <Image source={require('@/assets/close.png')} style={{ width: 32, height: 32, marginLeft: 8 }} />
 
         <View className="bg-white pt-8 pb-6 px-5">
           <View style={{ alignItems: 'center' }}>
@@ -113,35 +110,34 @@ export default function DetailsScreen() {
               }}
             />
           </View>
-          <Text
-            className="text-lg text-center text-gray-900 mb-5 mt-2"
-          >
-            {data.storeName}
-          </Text>
+          <Text className="text-lg text-center text-gray-900 mb-5 mt-2">{data.storeName}</Text>
           <Text
             className="text-4xl font-bold text-center text-gray-900 mb-8"
             style={{ fontFamily: 'WeChatSans-Medium' }}
           >
             {data.amount}
           </Text>
-          <View className="h-px bg-gray-200 my-4" />
+          <View className="h-px bg-gray-200 my-3" />
           {infoRows.map((row) => (
             <View className="flex flex-row justify-start items-start gap-3 my-2" key={row.label}>
-              <Text className="text-md text-gray-500 w-23" style={{ width: 70 }}>{row.label}</Text>
-              <Text
-                className={`text-base text-gray-900 flex-1 text-left leading-5.5`}
-              >
-                {row.value}
+              <Text className="text-md text-gray-500 w-23" style={{ width: 70 }}>
+                {row.label}
               </Text>
+              <Text className={`text-base text-gray-900 flex-1 text-left leading-5.5`}>{row.value}</Text>
             </View>
           ))}
           <View className="mt-6 items-center">
             {barcodeImageUri ? (
-              <Image source={{ uri: barcodeImageUri }} className="w-full h-30 resize-contain mb-3" />
+              <Image
+                source={{ uri: barcodeImageUri }}
+                style={{ width: '90%', height: 55 }}
+                // resizeMode="contain"
+                className="mb-3"
+              />
             ) : (
               <Text className="text-sm text-gray-400 mb-3">暂无条形码信息</Text>
             )}
-            <Text className="text-base tracking-wider text-gray-900">
+            <Text className="text-base text-gray-900" style={{ letterSpacing: '2' }}>
               {data.barcode}
             </Text>
           </View>
