@@ -104,7 +104,7 @@ export default function DetailsScreen() {
           <Image source={require('@/assets/close.png')} style={{ width: 32, height: 32 }} />
         </TouchableOpacity>
 
-        <View className="bg-white pt-8 pb-6 px-5">
+        <View className="bg-white pt-8 pb-6 px-7">
           <Image
             source={avatarSource}
             resizeMode="contain"
@@ -136,14 +136,14 @@ export default function DetailsScreen() {
             {barcodeImageUri ? (
               <Image
                 source={{ uri: barcodeImageUri }}
-                style={{ width: '90%', height: 55 }}
+                style={{ width: '88%', height: 55 }}
                 // resizeMode="contain"
                 className="mb-3"
               />
             ) : (
               <Text className="text-sm text-gray-400 mb-3">暂无条形码信息</Text>
             )}
-            <Text className="text-base text-gray-900" style={{ letterSpacing: '2' }}>
+            <Text className="text-base text-gray-900" style={{ letterSpacing: 1.2 }}>
               {data.barcode}
             </Text>
           </View>
