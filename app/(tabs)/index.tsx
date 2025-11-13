@@ -182,6 +182,7 @@ export default function HomeScreen() {
     return !form.storeName.trim() || !form.amount.trim() || !form.status.trim()
   }, [form.amount, form.status, form.storeName])
 
+
   const handlePreview = () => {
     if (isPreviewDisabled) return
     router.push({
@@ -193,9 +194,23 @@ export default function HomeScreen() {
     })
   }
 
+  // useEffect(() => {
+  //   handlePreview()
+  // }, [selectedAvatar.key])
+
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-gray-50">
       <ScrollView className="px-5" contentContainerStyle={{ paddingBottom: 10 }}>
+
+      <TouchableOpacity
+          className={`mt-6 py-3.5 rounded-xl items-center ${isPreviewDisabled ? 'bg-blue-300' : 'bg-primary'}`}
+          onPress={handlePreview}
+          activeOpacity={0.8}
+          disabled={isPreviewDisabled}
+        >
+          <Text className="text-base font-semibold text-white">预览详情页</Text>
+        </TouchableOpacity>
+
         <Text className="text-2xl font-semibold text-gray-900 mb-4">账单页面配置</Text>
 
         <Image source={selectedAvatar.source} className="rounded-full mr-3" style={{ width: 48, height: 48 }} />
