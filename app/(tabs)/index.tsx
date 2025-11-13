@@ -1,9 +1,8 @@
-// eslint-disable-next-line import/no-unresolved
+ 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   ScrollView,
   Text,
@@ -11,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type FormState = {
   storeName: string;
@@ -46,9 +46,29 @@ const defaultForm: FormState = {
 
 const avatarPresets = [
   {
-    key: 'xiong',
-    label: '小熊',
-    source: require('@/assets/icons/xiong.png'),
+    key: 'e-pay',
+    label: 'E支付',
+    source: require('@/assets/icons/e-pay.png'),
+  },
+  {
+    key: 'e-pay2',
+    label: 'E支付2',
+    source: require('@/assets/icons/e-pay2.png'),
+  },
+  {
+    key: 'jianhang',
+    label: '建行',
+    source: require('@/assets/icons/jianhang.png'),
+  },
+  {
+    key: 'jianhang2',
+    label: '建行2',
+    source: require('@/assets/icons/jianhang2.png'),
+  },
+  {
+    key: 'lan',
+    label: '蓝色',
+    source: require('@/assets/icons/lan.png'),
   },
   {
     key: 'meituan',
@@ -56,9 +76,39 @@ const avatarPresets = [
     source: require('@/assets/icons/meituan.png'),
   },
   {
-    key: 'lan',
-    label: '蓝色',
-    source: require('@/assets/icons/lan.png'),
+    key: 'meituan2',
+    label: '美团2',
+    source: require('@/assets/icons/meituan2.png'),
+  },
+  {
+    key: 'nonghang',
+    label: '农行',
+    source: require('@/assets/icons/nonghang.png'),
+  },
+  {
+    key: 'shihua',
+    label: '石化',
+    source: require('@/assets/icons/shihua.png'),
+  },
+  {
+    key: 'shouqianba',
+    label: '收钱吧',
+    source: require('@/assets/icons/shouqianba.png'),
+  },
+  {
+    key: 'xiong',
+    label: '小熊',
+    source: require('@/assets/icons/xiong.png'),
+  },
+  {
+    key: 'yunshanfu',
+    label: '云闪付',
+    source: require('@/assets/icons/yunshanfu.png'),
+  },
+  {
+    key: 'zhifutong',
+    label: '支付通',
+    source: require('@/assets/icons/zhifutong.png'),
   },
 ];
 
@@ -69,6 +119,7 @@ export default function HomeScreen() {
   const [form, setForm] = useState<FormState>(defaultForm);
   const [selectedAvatarKey, setSelectedAvatarKey] = useState<string>(avatarPresets[0]?.key ?? '');
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -150,31 +201,51 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <ScrollView className="px-5 pb-10" contentContainerStyle={{ paddingBottom: 40 }}>
+    <SafeAreaView edges={['top']} className="flex-1 bg-gray-50">
+      <ScrollView className="px-5" contentContainerStyle={{ paddingBottom: 10 }}>
         <Text className="text-2xl font-semibold text-gray-900 mb-4">账单页面配置</Text>
 
+        <Image source={selectedAvatar.source} className="w-12 h-12 rounded-full mr-3" />
+
         <Text className="text-base font-medium text-gray-700 mb-3">头像选择</Text>
-        <View className="flex-row gap-3 mb-6">
-          {avatarPresets.map((avatar) => {
-            const isActive = selectedAvatarKey === avatar.key;
-            return (
-              <TouchableOpacity
-                key={avatar.key}
-                className={`flex-1 items-center p-3 rounded-xl border ${
-                  isActive
-                    ? 'border-primary shadow-lg shadow-primary/15 elevation-4'
-                    : 'border-gray-200 bg-white'
-                }`}
-                onPress={() => setSelectedAvatarKey(avatar.key)}
-                activeOpacity={0.7}>
-                <Image source={avatar.source} className="w-16 h-16 rounded-full mb-2" />
-                <Text className={`text-sm ${isActive ? 'text-primary font-semibold' : 'text-gray-600'}`}>
-                  {avatar.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+        <View className="relative mb-6">
+          <TouchableOpacity
+            className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center justify-between"
+            onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+            activeOpacity={0.8}>
+            <View className="flex-row items-center">
+              <Image source={selectedAvatar.source} className="w-12 h-12 rounded-full mr-3" />
+              <Text className="text-base color-gray-900 font-medium">{selectedAvatar.label}</Text>
+            </View>
+            <Text className={`text-gray-400 text-sm ${isDropdownOpen ? 'rotate-180' : ''}`}>▼</Text>
+          </TouchableOpacity>
+
+          {isDropdownOpen && (
+            <View className="absolute top-full left-0 right-0 bg-white rounded-b-2xl border border-t-0 border-gray-200 max-h-72 z-10">
+              <ScrollView className="max-h-72">
+                {avatarPresets.map((avatar) => {
+                  const isSelected = selectedAvatarKey === avatar.key;
+                  return (
+                    <TouchableOpacity
+                      key={avatar.key}
+                      className={`flex-row items-center px-4 py-3 border-b border-gray-100 ${
+                        isSelected ? 'bg-blue-50' : ''
+                      }`}
+                      onPress={() => {
+                        setSelectedAvatarKey(avatar.key);
+                        setIsDropdownOpen(false);
+                      }}
+                      activeOpacity={0.7}>
+                      <Image source={avatar.source} className="w-10 h-10 rounded-full mr-3" />
+                      <Text className={`text-base ${isSelected ? 'text-blue-600 font-semibold' : 'text-gray-900'}`}>
+                        {avatar.label}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </View>
+          )}
         </View>
 
         <View className="bg-white rounded-2xl px-4 py-3 border border-gray-200">

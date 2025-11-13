@@ -3,6 +3,7 @@ import { Image, type ImageSource } from 'expo-image';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useMemo } from 'react';
 import { ScrollView, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const defaults = {
   storeName: '粥小串永州冷水滩店',
@@ -91,8 +92,8 @@ export default function DetailsScreen() {
   ];
 
   return (
-    <View className="flex-1 bg-white">
-      <ScrollView className="flex-1" contentContainerStyle={{ padding: 0, paddingBottom: 0 }}>
+    <SafeAreaView edges={['top']} className="flex-1 bg-white">
+      <ScrollView className="flex-1">
         <View className="bg-white rounded-2xl py-6 px-5 shadow-lg shadow-black/10 elevation-6">
           <Image source={avatarSource} className="w-17.5 h-17.5 rounded-full self-center mb-3" />
           <Text className="text-lg font-semibold text-center text-gray-900 mb-2" style={{ fontFamily: 'WeChatSans-Medium' }}>
@@ -103,7 +104,7 @@ export default function DetailsScreen() {
           </Text>
           <View className="h-px bg-gray-200 my-4" />
           {infoRows.map((row) => (
-            <View className="flex-row justify-between items-start gap-3 my-2.5" key={row.label}>
+            <View className="flex flex-row justify-between items-start gap-3 my-2.5" key={row.label}>
               <Text className="text-sm text-gray-500 w-23">{row.label}</Text>
               <Text
                 className={`text-base text-gray-900 flex-1 text-right leading-5.5 ${
@@ -127,7 +128,7 @@ export default function DetailsScreen() {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
