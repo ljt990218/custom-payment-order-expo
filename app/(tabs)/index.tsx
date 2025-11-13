@@ -1,32 +1,25 @@
- 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
-import React, { useEffect, useMemo, useState } from 'react';
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Image } from 'expo-image'
+import { useRouter } from 'expo-router'
+import React, { useEffect, useMemo, useState } from 'react'
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type FormState = {
-  storeName: string;
-  amount: string;
-  status: string;
-  payTime: string;
-  productName: string;
-  merchantFullName: string;
-  acquiringInstitution: string;
-  clearingDescription: string;
-  paymentMethod: string;
-  paymentNote: string;
-  transactionId: string;
-  merchantOrderNote: string;
-  barcode: string;
-};
+  storeName: string
+  amount: string
+  status: string
+  payTime: string
+  productName: string
+  merchantFullName: string
+  acquiringInstitution: string
+  clearingDescription: string
+  paymentMethod: string
+  paymentNote: string
+  transactionId: string
+  merchantOrderNote: string
+  barcode: string
+}
 
 const defaultForm: FormState = {
   storeName: '粥小串永州冷水滩店',
@@ -42,7 +35,7 @@ const defaultForm: FormState = {
   transactionId: '4200002732202507107819354892',
   merchantOrderNote: '可在支持的商户扫码退款',
   barcode: '2025071010113130166241449811882',
-};
+}
 
 const avatarPresets = [
   {
@@ -110,111 +103,112 @@ const avatarPresets = [
     label: '支付通',
     source: require('@/assets/icons/zhifutong.png'),
   },
-];
+]
 
-const STORAGE_KEY = 'payment-config-v1';
+const STORAGE_KEY = 'payment-config-v1'
 
 export default function HomeScreen() {
-  const router = useRouter();
-  const [form, setForm] = useState<FormState>(defaultForm);
-  const [selectedAvatarKey, setSelectedAvatarKey] = useState<string>(avatarPresets[0]?.key ?? '');
-  const [isHydrated, setIsHydrated] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const router = useRouter()
+  const [form, setForm] = useState<FormState>(defaultForm)
+  const [selectedAvatarKey, setSelectedAvatarKey] = useState<string>(avatarPresets[0]?.key ?? '')
+  const [isHydrated, setIsHydrated] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   useEffect(() => {
-    let isMounted = true;
-    (async () => {
+    let isMounted = true
+    ;(async () => {
       try {
-        const raw = await AsyncStorage.getItem(STORAGE_KEY);
+        const raw = await AsyncStorage.getItem(STORAGE_KEY)
         if (!raw) {
           if (isMounted) {
-            setIsHydrated(true);
+            setIsHydrated(true)
           }
-          return;
+          return
         }
         const parsed = JSON.parse(raw) as {
-          form?: Partial<FormState>;
-          avatarKey?: string;
-        };
+          form?: Partial<FormState>
+          avatarKey?: string
+        }
         if (isMounted) {
-          setForm((prev) => ({ ...prev, ...(parsed.form ?? {}) }));
-          const candidate = parsed.avatarKey;
-          const matched = avatarPresets.find((avatar) => avatar.key === candidate)?.key;
+          setForm((prev) => ({ ...prev, ...(parsed.form ?? {}) }))
+          const candidate = parsed.avatarKey
+          const matched = avatarPresets.find((avatar) => avatar.key === candidate)?.key
           if (matched) {
-            setSelectedAvatarKey(matched);
+            setSelectedAvatarKey(matched)
           }
-          setIsHydrated(true);
+          setIsHydrated(true)
         }
       } catch (error) {
-        console.warn('加载配置失败', error);
+        console.warn('加载配置失败', error)
         if (isMounted) {
-          setIsHydrated(true);
+          setIsHydrated(true)
         }
       }
-    })();
+    })()
     return () => {
-      isMounted = false;
-    };
-  }, []);
+      isMounted = false
+    }
+  }, [])
 
   useEffect(() => {
-    if (!isHydrated) return;
-    (async () => {
+    if (!isHydrated) return
+    ;(async () => {
       try {
         await AsyncStorage.setItem(
           STORAGE_KEY,
           JSON.stringify({
             form,
             avatarKey: selectedAvatarKey,
-          }),
-        );
+          })
+        )
       } catch (error) {
-        console.warn('保存配置失败', error);
+        console.warn('保存配置失败', error)
       }
-    })();
-  }, [form, selectedAvatarKey, isHydrated]);
+    })()
+  }, [form, selectedAvatarKey, isHydrated])
 
   const selectedAvatar = useMemo(() => {
-    return avatarPresets.find((avatar) => avatar.key === selectedAvatarKey) ?? avatarPresets[0];
-  }, [selectedAvatarKey]);
+    return avatarPresets.find((avatar) => avatar.key === selectedAvatarKey) ?? avatarPresets[0]
+  }, [selectedAvatarKey])
 
   const handleChange = (key: keyof FormState, value: string) => {
     setForm((prev) => ({
       ...prev,
       [key]: value,
-    }));
-  };
+    }))
+  }
 
   const isPreviewDisabled = useMemo(() => {
-    return !form.storeName.trim() || !form.amount.trim() || !form.status.trim();
-  }, [form.amount, form.status, form.storeName]);
+    return !form.storeName.trim() || !form.amount.trim() || !form.status.trim()
+  }, [form.amount, form.status, form.storeName])
 
   const handlePreview = () => {
-    if (isPreviewDisabled) return;
+    if (isPreviewDisabled) return
     router.push({
       pathname: '/details',
       params: {
         ...form,
         avatarKey: selectedAvatar.key,
       },
-    });
-  };
+    })
+  }
 
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-gray-50">
       <ScrollView className="px-5" contentContainerStyle={{ paddingBottom: 10 }}>
         <Text className="text-2xl font-semibold text-gray-900 mb-4">账单页面配置</Text>
 
-        <Image source={selectedAvatar.source} className="w-12 h-12 rounded-full mr-3" />
+        <Image source={selectedAvatar.source} className="rounded-full mr-3" style={{ width: 48, height: 48 }} />
 
         <Text className="text-base font-medium text-gray-700 mb-3">头像选择</Text>
         <View className="relative mb-6">
           <TouchableOpacity
             className="bg-white rounded-2xl border border-gray-200 px-4 py-3 flex-row items-center justify-between"
             onPress={() => setIsDropdownOpen(!isDropdownOpen)}
-            activeOpacity={0.8}>
+            activeOpacity={0.8}
+          >
             <View className="flex-row items-center">
-              <Image source={selectedAvatar.source} className="w-12 h-12 rounded-full mr-3" />
+              <Image source={selectedAvatar.source} className="rounded-full mr-3" style={{ width: 48, height: 48 }} />
               <Text className="text-base color-gray-900 font-medium">{selectedAvatar.label}</Text>
             </View>
             <Text className={`text-gray-400 text-sm ${isDropdownOpen ? 'rotate-180' : ''}`}>▼</Text>
@@ -224,7 +218,7 @@ export default function HomeScreen() {
             <View className="absolute top-full left-0 right-0 bg-white rounded-b-2xl border border-t-0 border-gray-200 max-h-72 z-10">
               <ScrollView className="max-h-72">
                 {avatarPresets.map((avatar) => {
-                  const isSelected = selectedAvatarKey === avatar.key;
+                  const isSelected = selectedAvatarKey === avatar.key
                   return (
                     <TouchableOpacity
                       key={avatar.key}
@@ -232,16 +226,17 @@ export default function HomeScreen() {
                         isSelected ? 'bg-blue-50' : ''
                       }`}
                       onPress={() => {
-                        setSelectedAvatarKey(avatar.key);
-                        setIsDropdownOpen(false);
+                        setSelectedAvatarKey(avatar.key)
+                        setIsDropdownOpen(false)
                       }}
-                      activeOpacity={0.7}>
-                      <Image source={avatar.source} className="w-10 h-10 rounded-full mr-3" />
+                      activeOpacity={0.7}
+                    >
+                      <Image source={avatar.source} className="rounded-full mr-3" style={{ width: 40, height: 40 }} />
                       <Text className={`text-base ${isSelected ? 'text-blue-600 font-semibold' : 'text-gray-900'}`}>
                         {avatar.label}
                       </Text>
                     </TouchableOpacity>
-                  );
+                  )
                 })}
               </ScrollView>
             </View>
@@ -335,27 +330,26 @@ export default function HomeScreen() {
         </View>
 
         <TouchableOpacity
-          className={`mt-6 py-3.5 rounded-xl items-center ${
-            isPreviewDisabled ? 'bg-blue-300' : 'bg-primary'
-          }`}
+          className={`mt-6 py-3.5 rounded-xl items-center ${isPreviewDisabled ? 'bg-blue-300' : 'bg-primary'}`}
           onPress={handlePreview}
           activeOpacity={0.8}
-          disabled={isPreviewDisabled}>
+          disabled={isPreviewDisabled}
+        >
           <Text className="text-base font-semibold text-white">预览详情页</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
 
 type FormFieldProps = {
-  label: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
-  keyboardType?: 'default' | 'decimal-pad';
-  multiline?: boolean;
-};
+  label: string
+  value: string
+  onChangeText: (text: string) => void
+  placeholder?: string
+  keyboardType?: 'default' | 'decimal-pad'
+  multiline?: boolean
+}
 
 function FormField({
   label,
@@ -381,6 +375,5 @@ function FormField({
         textAlignVertical={multiline ? 'top' : 'center'}
       />
     </View>
-  );
+  )
 }
-

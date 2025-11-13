@@ -1,9 +1,9 @@
-import { useCustomFonts } from '@/hooks/use-fonts';
-import { Image, type ImageSource } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
-import React, { useMemo } from 'react';
-import { ScrollView, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useCustomFonts } from '@/hooks/use-fonts'
+import { Image, type ImageSource } from 'expo-image'
+import { useLocalSearchParams } from 'expo-router'
+import React, { useMemo } from 'react'
+import { ScrollView, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const defaults = {
   storeName: '粥小串永州冷水滩店',
@@ -20,28 +20,34 @@ const defaults = {
   merchantOrderNote: '可在支持的商户扫码退款',
   barcode: '2025071010113130166241449811882',
   avatarKey: 'xiong',
-};
+}
 
 const avatarMap: Record<string, ImageSource> = {
-  xiong: require('@/assets/icons/xiong.png') as ImageSource,
-  meituan: require('@/assets/icons/meituan.png') as ImageSource,
+  'e-pay': require('@/assets/icons/e-pay.png') as ImageSource,
+  'e-pay2': require('@/assets/icons/e-pay2.png') as ImageSource,
+  jianhang: require('@/assets/icons/jianhang.png') as ImageSource,
+  jianhang2: require('@/assets/icons/jianhang2.png') as ImageSource,
   lan: require('@/assets/icons/lan.png') as ImageSource,
-};
+  meituan: require('@/assets/icons/meituan.png') as ImageSource,
+  meituan2: require('@/assets/icons/meituan2.png') as ImageSource,
+  nonghang: require('@/assets/icons/nonghang.png') as ImageSource,
+  shihua: require('@/assets/icons/shihua.png') as ImageSource,
+  shouqianba: require('@/assets/icons/shouqianba.png') as ImageSource,
+  xiong: require('@/assets/icons/xiong.png') as ImageSource,
+  yunshanfu: require('@/assets/icons/yunshanfu.png') as ImageSource,
+  zhifutong: require('@/assets/icons/zhifutong.png') as ImageSource,
+}
 
 function coerceParam(value: string | string[] | undefined, fallback: string) {
   if (Array.isArray(value)) {
-    return value[0] ?? fallback;
+    return value[0] ?? fallback
   }
-  return value ?? fallback;
+  return value ?? fallback
 }
 
 export default function DetailsScreen() {
-  const params = useLocalSearchParams();
-  const fontsLoaded = useCustomFonts();
-
-  if (!fontsLoaded) {
-    return null;
-  }
+  const params = useLocalSearchParams()
+  const fontsLoaded = useCustomFonts()
 
   const data = useMemo(() => {
     return {
@@ -51,32 +57,26 @@ export default function DetailsScreen() {
       payTime: coerceParam(params.payTime, defaults.payTime),
       productName: coerceParam(params.productName, defaults.productName),
       merchantFullName: coerceParam(params.merchantFullName, defaults.merchantFullName),
-      acquiringInstitution: coerceParam(
-        params.acquiringInstitution,
-        defaults.acquiringInstitution,
-      ),
-      clearingDescription: coerceParam(
-        params.clearingDescription,
-        defaults.clearingDescription,
-      ),
+      acquiringInstitution: coerceParam(params.acquiringInstitution, defaults.acquiringInstitution),
+      clearingDescription: coerceParam(params.clearingDescription, defaults.clearingDescription),
       paymentMethod: coerceParam(params.paymentMethod, defaults.paymentMethod),
       paymentNote: coerceParam(params.paymentNote, defaults.paymentNote),
       transactionId: coerceParam(params.transactionId, defaults.transactionId),
       merchantOrderNote: coerceParam(params.merchantOrderNote, defaults.merchantOrderNote),
       barcode: coerceParam(params.barcode, defaults.barcode),
       avatarKey: coerceParam(params.avatarKey, defaults.avatarKey),
-    };
-  }, [params]);
+    }
+  }, [params])
 
   const avatarSource = useMemo(() => {
-    return avatarMap[data.avatarKey] ?? avatarMap[defaults.avatarKey];
-  }, [data.avatarKey]);
+    return avatarMap[data.avatarKey] ?? avatarMap[defaults.avatarKey]
+  }, [data.avatarKey])
 
   const barcodeImageUri = useMemo(() => {
-    if (!data.barcode) return null;
-    const encoded = encodeURIComponent(data.barcode);
-    return `https://bwipjs-api.metafloor.com/?bcid=code128&text=${encoded}&scale=2&includetext=false`;
-  }, [data.barcode]);
+    if (!data.barcode) return null
+    const encoded = encodeURIComponent(data.barcode)
+    return `https://bwipjs-api.metafloor.com/?bcid=code128&text=${encoded}&scale=2&includetext=false`
+  }, [data.barcode])
 
   const infoRows = [
     { label: '当前状态', value: data.status },
@@ -89,17 +89,25 @@ export default function DetailsScreen() {
     { label: '支付说明', value: data.paymentNote },
     { label: '交易单号', value: data.transactionId },
     { label: '商户单号', value: data.merchantOrderNote },
-  ];
+  ]
 
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-white">
-      <ScrollView className="flex-1">
-        <View className="bg-white rounded-2xl py-6 px-5 shadow-lg shadow-black/10 elevation-6">
-          <Image source={avatarSource} className="w-17.5 h-17.5 rounded-full self-center mb-3" />
-          <Text className="text-lg font-semibold text-center text-gray-900 mb-2" style={{ fontFamily: 'WeChatSans-Medium' }}>
+      <ScrollView className="flex-1 relative">
+        <Image source={require('@/assets/close.png')} className="z-10 absolute top-24 left-14" style={{ width: 40, height: 40 }} />
+
+        <View className="bg-white py-6 px-5">
+          <Image source={avatarSource} className="mx-auto self-center mb-3" style={{ width: 56, height: 56 }} />
+          <Text
+            className="text-lg font-semibold text-center text-gray-900 mb-2"
+            style={{ fontFamily: 'WeChatSans-Medium' }}
+          >
             {data.storeName}
           </Text>
-          <Text className="text-5xl font-bold text-center text-gray-900 mb-4" style={{ fontFamily: 'WeChatSans-Medium' }}>
+          <Text
+            className="text-5xl font-bold text-center text-gray-900 mb-4"
+            style={{ fontFamily: 'WeChatSans-Medium' }}
+          >
             {data.amount}
           </Text>
           <View className="h-px bg-gray-200 my-4" />
@@ -129,7 +137,5 @@ export default function DetailsScreen() {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
-
-
