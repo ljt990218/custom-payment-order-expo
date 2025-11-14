@@ -2,7 +2,7 @@ import { Image } from 'expo-image'
 import { Text, View } from 'react-native'
 
 export default function TabTwoScreen() {
-  const actImg = require('@/assets/IMG_4829.png')
+  const actImg = require('@/assets/ljt990218.png')
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
