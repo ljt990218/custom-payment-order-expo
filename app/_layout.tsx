@@ -3,6 +3,8 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import '../global.css';
+import { useCustomFonts } from '@/hooks/use-fonts';
+import { View, ActivityIndicator } from 'react-native';
 // import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export const unstable_settings = {
@@ -11,6 +13,15 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   // const colorScheme = useColorScheme();
+  const fontsLoaded = useCustomFonts();
+
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <ThemeProvider value={DefaultTheme}>

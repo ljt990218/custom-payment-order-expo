@@ -124,14 +124,14 @@ export default function DetailsScreen() {
           </Text>
           <View className="h-px bg-gray-200 my-3" />
           {infoRows.map((row) => (
-            <View className="flex flex-row justify-start items-start gap-3 my-2" key={row.label}>
-              <Text className="text-md text-gray-500 w-23" style={{ width: 70 }}>
+            <View className="flex flex-row justify-center gap-3 my-2" key={row.label}>
+              <Text className="text-base text-gray-500 w-23" style={{ width: 70 }}>
                 {row.label}
               </Text>
               <View className="flex-1">
-                <Text className={`text-base text-gray-900 text-left leading-5.5`}>{row.value}</Text>
+                <Text className={`text-base text-gray-900 leading-5.5`}>{row.value}</Text>
                 {row.clearingDescription && (
-                  <Text className="text-base text-gray-500 text-left leading-5.5 mt-1">
+                  <Text className="text-base text-gray-500 leading-5.5 mt-1">
                     {row.clearingDescription}
                   </Text>
                 )}

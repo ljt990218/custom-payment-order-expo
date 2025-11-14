@@ -246,7 +246,7 @@ export default function HomeScreen() {
                       }}
                       activeOpacity={0.7}
                     >
-                      <Image source={avatar.source} className="rounded-full mr-3" style={{ width: 40, height: 40 }} />
+                      <Image source={avatar.source} style={{ width: 40, height: 40, marginRight: 20 }} />
                       <Text className={`text-base ${isSelected ? 'text-blue-600 font-semibold' : 'text-gray-900'}`}>
                         {avatar.label}
                       </Text>
