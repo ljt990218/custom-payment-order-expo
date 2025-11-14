@@ -98,12 +98,12 @@ export default function DetailsScreen() {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => router.back()}
-          style={{ position: 'absolute', top: 8, left: 8, zIndex: 10 }}
+          style={{ position: 'absolute', top: 0, left: 6, zIndex: 10 }}
         >
           <Image source={require('@/assets/close.png')} style={{ width: 32, height: 32 }} />
         </TouchableOpacity>
 
-        <View className="bg-white pt-8 pb-6 px-7">
+        <View className="bg-white pt-16 pb-6 px-9">
           <Image
             source={avatarSource}
             resizeMode="contain"
@@ -115,41 +115,39 @@ export default function DetailsScreen() {
             }}
             className="mb-3"
           />
-          <Text className="text-lg text-center text-gray-900 mb-5">{data.storeName}</Text>
+          <Text className="text-xl text-center text-gray-900 mb-5">{data.storeName}</Text>
           <Text
-            className="text-4xl font-bold text-center text-gray-900 mb-8"
+            className="text-4xl font-bold text-center text-gray-900 mb-11"
             style={{ fontFamily: 'WeChatSans-Medium' }}
           >
             {data.amount}
           </Text>
-          <View className="h-px bg-gray-200 my-3" />
+          <View className="h-px bg-gray-200 mt-3 mb-5" />
           {infoRows.map((row) => (
-            <View className="flex flex-row justify-center gap-3 my-2" key={row.label}>
+            <View className="flex flex-row justify-center gap-3" key={row.label} style={{ marginTop: 5.5 }}>
               <Text className="text-base text-gray-500 w-23" style={{ width: 70 }}>
                 {row.label}
               </Text>
               <View className="flex-1">
                 <Text className={`text-base text-gray-900 leading-5.5`}>{row.value}</Text>
                 {row.clearingDescription && (
-                  <Text className="text-base text-gray-500 leading-5.5 mt-1">
-                    {row.clearingDescription}
-                  </Text>
+                  <Text className="text-base text-gray-500 leading-5.5 mt-1">{row.clearingDescription}</Text>
                 )}
               </View>
             </View>
           ))}
-          <View className="mt-6 items-center">
+          <View className="mt-7 items-center">
             {barcodeImageUri ? (
               <Image
                 source={{ uri: barcodeImageUri }}
-                style={{ width: '88%', height: 55 }}
+                style={{ width: '88%', height: 50 }}
                 // resizeMode="contain"
                 className="mb-3"
               />
             ) : (
               <Text className="text-sm text-gray-400 mb-3">暂无条形码信息</Text>
             )}
-            <Text className="text-base text-gray-900" style={{ letterSpacing: 1.2 }}>
+            <Text className="text-base text-gray-900" style={{ letterSpacing: 1 }}>
               {data.barcode}
             </Text>
           </View>
