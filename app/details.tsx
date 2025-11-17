@@ -117,8 +117,8 @@ export default function DetailsScreen() {
           />
           <Text className="text-xl text-center text-gray-900 mb-5">{data.storeName}</Text>
           <Text
-            className="text-4xl font-bold text-center text-gray-900 mb-11"
-            style={{ fontFamily: 'WeChatSans-Medium' }}
+            className="text-4xl text-center text-gray-900 mb-11"
+            style={{ fontFamily: 'WeChatSansStd-Medium' }}
           >
             {data.amount}
           </Text>
@@ -140,14 +140,14 @@ export default function DetailsScreen() {
             {barcodeImageUri ? (
               <Image
                 source={{ uri: barcodeImageUri }}
-                style={{ width: '88%', height: 50 }}
+                style={{ width: '88%', height: 46 }}
                 // resizeMode="contain"
                 className="mb-3"
               />
             ) : (
               <Text className="text-sm text-gray-400 mb-3">暂无条形码信息</Text>
             )}
-            <Text className="text-base text-gray-900" style={{ letterSpacing: 1 }}>
+            <Text className="text-base text-gray-900" style={{ letterSpacing: 0.8 }}>
               {data.barcode}
             </Text>
           </View>
